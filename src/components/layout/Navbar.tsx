@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { 
   Building2, 
   Search, 
-  Scale, 
   HelpCircle, 
   User, 
   PlusCircle, 
@@ -93,15 +92,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="hover:text-[#FF4B26] transition-colors cursor-pointer"
             >
               How It Works
-            </button>
-            <button
-              onClick={() => handleNavClick('', 'compare')}
-              className={`hover:text-[#FF4B26] transition-colors cursor-pointer flex items-center gap-1.5 ${
-                activeTab === 'compare' ? 'text-[#FF4B26] font-semibold' : ''
-              }`}
-            >
-              <Scale className="w-4 h-4" />
-              Compare Hostels
             </button>
             <button
               onClick={() => {
@@ -285,13 +275,6 @@ export const Navbar: React.FC<NavbarProps> = ({
               className="px-3 py-2 rounded-lg text-left hover:bg-slate-50"
             >
               How It Works
-            </button>
-
-            <button
-              onClick={() => handleNavClick('', 'compare')}
-              className="px-3 py-2 rounded-lg text-left hover:bg-slate-50 flex items-center gap-2"
-            >
-              <Scale className="w-4 h-4 text-[#FF4B26]" /> Compare Accommodations
             </button>
 
             <button

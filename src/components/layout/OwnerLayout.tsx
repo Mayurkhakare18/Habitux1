@@ -47,7 +47,7 @@ export const OwnerLayout: React.FC = () => {
         {/* Brand */}
         <div className="p-5 border-b border-slate-800 flex items-center justify-between">
           <div 
-            onClick={() => navigate('/')} 
+            onClick={() => navigate('/owner/dashboard')} 
             className="flex items-center gap-2.5 cursor-pointer select-none"
           >
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-[#FF4B26] to-[#FF7043] flex items-center justify-center shadow-md">

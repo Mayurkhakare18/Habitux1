@@ -39,7 +39,7 @@ export const AdminLayout: React.FC = () => {
       <aside className="hidden lg:flex flex-col w-64 bg-[#0A1120] text-white shrink-0 sticky top-0 h-screen z-30 border-r border-slate-800">
         <div className="p-5 border-b border-slate-800 flex items-center justify-between">
           <div 
-            onClick={() => navigate('/')} 
+            onClick={() => navigate('/admin/dashboard')} 
             className="flex items-center gap-2.5 cursor-pointer select-none"
           >
             <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-md">

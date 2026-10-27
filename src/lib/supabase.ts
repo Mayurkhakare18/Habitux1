@@ -394,8 +394,8 @@ export const HabituxAPI = {
       curfew_policy: newHostel.curfew_policy || '10:00 PM',
       visitor_policy: newHostel.visitor_policy || 'Guests allowed in visitor lounge',
       cancellation_policy: newHostel.cancellation_policy || '15 days notice',
-      listing_status: 'pending_review',
-      verification_status: 'pending',
+      listing_status: newHostel.listing_status || 'pending_review',
+      verification_status: newHostel.verification_status || 'pending',
       images: newHostel.images?.length ? newHostel.images : [
         {
           id: `img-${Date.now()}`,

@@ -15,6 +15,7 @@ import {
   Star, 
   ChevronRight, 
   ArrowRight,
+  ArrowLeft,
   ShieldCheck 
 } from 'lucide-react';
 
@@ -67,13 +68,38 @@ export const ComparePage: React.FC = () => {
       <div className="bg-white border-b border-[#EDE8DF] py-3 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-xs">
           <div className="flex items-center gap-1.5 text-slate-500">
-            <Link to="/" className="hover:text-[#FF4B26]">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="font-semibold text-slate-900">Compare Accommodations</span>
+            {user?.role === 'student' ? (
+              <>
+                <Link to="/student/dashboard" className="hover:text-[#FF4B26] font-medium">Dashboard</Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <Link to="/student/explore" className="hover:text-[#FF4B26] font-medium">Explore</Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <span className="font-semibold text-slate-900">Compare Accommodations</span>
+              </>
+            ) : (
+              <>
+                <Link to="/" className="hover:text-[#FF4B26]">Home</Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <span className="font-semibold text-slate-900">Compare Accommodations</span>
+              </>
+            )}
           </div>
-          <span className="text-slate-500 font-medium hidden sm:inline">
-            Compare up to 3 verified student hostels side-by-side
-          </span>
+          
+          <button
+            onClick={() => {
+              if (user?.role === 'student') {
+                navigate('/student/dashboard');
+              } else if (window.history.length > 1) {
+                navigate(-1);
+              } else {
+                navigate('/hostels');
+              }
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-[#FFF1ED] text-slate-700 hover:text-[#FF4B26] font-semibold transition-colors cursor-pointer"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            {user?.role === 'student' ? 'Back to Student Dashboard' : 'Back to Hostels'}
+          </button>
         </div>
       </div>
 
@@ -278,11 +304,15 @@ export const ComparePage: React.FC = () => {
             </div>
           </div>
         ) : (
-          <div className="p-12 text-center bg-white rounded-3xl border border-[#EDE8DF]">
-            <p className="text-sm text-slate-600 mb-4">No hostels selected for comparison.</p>
-            <Link to="/hostels" className="px-5 py-2.5 bg-[#FF4B26] text-white text-xs font-bold rounded-xl">
-              Browse Hostels to Compare
-            </Link>
+          <div className="p-12 text-center bg-white rounded-3xl border border-[#EDE8DF] space-y-3">
+            <p className="text-sm font-medium text-slate-600">No hostels selected for comparison.</p>
+            <button
+              onClick={() => navigate(user?.role === 'student' ? '/student/explore' : '/hostels')}
+              className="px-5 py-2.5 bg-[#FF4B26] hover:bg-[#E03713] text-white text-xs font-bold rounded-xl shadow-md cursor-pointer inline-flex items-center gap-2 transition-all"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              {user?.role === 'student' ? 'Return to Explore Hostels' : 'Browse Hostels to Compare'}
+            </button>
           </div>
         )}
       </main>

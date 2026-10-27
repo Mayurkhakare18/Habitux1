@@ -160,18 +160,30 @@ export const HostelDetailPage: React.FC = () => {
       <div className="bg-white border-b border-[#EDE8DF] py-3 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto flex items-center justify-between text-xs">
           <div className="flex items-center gap-1.5 text-slate-500">
-            <Link to="/" className="hover:text-[#FF4B26]">Home</Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <Link to="/hostels" className="hover:text-[#FF4B26]">Hostels</Link>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-            <span className="font-semibold text-slate-900 truncate max-w-xs">{hostel.name}</span>
+            {user?.role === 'student' ? (
+              <>
+                <Link to="/student/dashboard" className="hover:text-[#FF4B26] font-medium">Student Dashboard</Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <Link to="/student/explore" className="hover:text-[#FF4B26] font-medium">Explore Hostels</Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <span className="font-semibold text-slate-900 truncate max-w-xs">{hostel.name}</span>
+              </>
+            ) : (
+              <>
+                <Link to="/" className="hover:text-[#FF4B26]">Home</Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <Link to="/hostels" className="hover:text-[#FF4B26]">Hostels</Link>
+                <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                <span className="font-semibold text-slate-900 truncate max-w-xs">{hostel.name}</span>
+              </>
+            )}
           </div>
 
           <button
-            onClick={() => navigate('/hostels')}
-            className="flex items-center gap-1 text-slate-500 hover:text-[#FF4B26] font-semibold cursor-pointer"
+            onClick={() => navigate(user?.role === 'student' ? '/student/explore' : '/hostels')}
+            className="flex items-center gap-1 text-slate-600 hover:text-[#FF4B26] font-semibold cursor-pointer px-2.5 py-1 rounded-lg hover:bg-slate-100 transition-colors"
           >
-            <ArrowLeft className="w-3.5 h-3.5" /> Back to Search
+            <ArrowLeft className="w-3.5 h-3.5" /> {user?.role === 'student' ? 'Back to Student Dashboard' : 'Back to Search'}
           </button>
         </div>
       </div>

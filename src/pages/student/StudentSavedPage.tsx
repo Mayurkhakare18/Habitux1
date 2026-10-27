@@ -4,6 +4,7 @@ import { useAuth } from '../../app/AuthContext';
 import { HabituxAPI } from '../../lib/supabase';
 import { Hostel } from '../../types';
 import { Heart, Trash2, ArrowRight, MapPin, Scale } from 'lucide-react';
+import { CompareDrawer } from '../../components/hostels/CompareDrawer';
 
 export const StudentSavedPage: React.FC = () => {
   const { user } = useAuth();
@@ -11,6 +12,8 @@ export const StudentSavedPage: React.FC = () => {
 
   const [savedHostels, setSavedHostels] = useState<Hostel[]>([]);
   const [loading, setLoading] = useState(true);
+  const [comparedHostels, setComparedHostels] = useState<Hostel[]>([]);
+  const [isCompareModalOpen, setIsCompareModalOpen] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -26,6 +29,12 @@ export const StudentSavedPage: React.FC = () => {
     if (!user) return;
     await HabituxAPI.toggleFavorite(user.id, hostelId);
     setSavedHostels((prev) => prev.filter((h) => h.id !== hostelId));
+    setComparedHostels((prev) => prev.filter((h) => h.id !== hostelId));
+  };
+
+  const handleCompareSaved = () => {
+    setComparedHostels(savedHostels.slice(0, 3));
+    setIsCompareModalOpen(true);
   };
 
   return (
@@ -42,10 +51,10 @@ export const StudentSavedPage: React.FC = () => {
 
         {savedHostels.length > 1 && (
           <button
-            onClick={() => navigate('/compare')}
-            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition-colors"
+            onClick={handleCompareSaved}
+            className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs rounded-xl flex items-center gap-1.5 transition-colors cursor-pointer"
           >
-            <Scale className="w-4 h-4" /> Compare Saved Properties
+            <Scale className="w-4 h-4 text-[#FF4B26]" /> Compare Saved Properties ({Math.min(savedHostels.length, 3)})
           </button>
         )}
       </div>
@@ -127,6 +136,17 @@ export const StudentSavedPage: React.FC = () => {
           </Link>
         </div>
       )}
+
+      {/* Floating Compare Drawer and Side-by-Side Modal */}
+      <CompareDrawer
+        comparedHostels={comparedHostels}
+        onRemoveFromCompare={(id) => setComparedHostels((prev) => prev.filter((h) => h.id !== id))}
+        onClearCompare={() => setComparedHostels([])}
+        isOpenModal={isCompareModalOpen}
+        onOpenModal={() => setIsCompareModalOpen(true)}
+        onCloseModal={() => setIsCompareModalOpen(false)}
+        onSelectHostel={(h) => navigate(`/hostels/${h.slug}`)}
+      />
     </div>
   );
 };

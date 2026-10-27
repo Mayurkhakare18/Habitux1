@@ -88,6 +88,7 @@ export const OwnerNewListingPage: React.FC = () => {
     'https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1200&q=80'
   ]);
   const [newImageUrl, setNewImageUrl] = useState('');
+  const [autoPublish, setAutoPublish] = useState(true);
 
   const handleAddRoom = () => {
     setRoomTypes([
@@ -147,6 +148,8 @@ export const OwnerNewListingPage: React.FC = () => {
         curfew_policy: curfewPolicy,
         visitor_policy: visitorPolicy,
         cancellation_policy: cancellationPolicy,
+        listing_status: autoPublish ? 'published' : 'pending_review',
+        verification_status: autoPublish ? 'verified' : 'pending',
         owner_id: user?.id || 'owner-001',
         owner_name: user?.full_name || 'Property Owner',
         owner_phone: user?.phone || '+91 98765 43210',
@@ -706,6 +709,27 @@ export const OwnerNewListingPage: React.FC = () => {
               </div>
             </div>
 
+            {/* Instant Publishing Preference */}
+            <div className="p-4 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 flex items-center justify-between gap-4">
+              <div>
+                <span className="text-xs font-bold text-emerald-950 uppercase tracking-wide block">
+                  Publish to Students Immediately
+                </span>
+                <span className="text-[11px] text-emerald-900/80 mt-0.5 block">
+                  When enabled, your accommodation goes live immediately on student search and booking. If disabled, it queues for admin verification.
+                </span>
+              </div>
+              <label className="relative inline-flex items-center cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={autoPublish}
+                  onChange={(e) => setAutoPublish(e.target.checked)}
+                  className="sr-only peer"
+                />
+                <div className="w-11 h-6 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-600"></div>
+              </label>
+            </div>
+
             <div className="flex justify-between pt-6 border-t border-[#EDE8DF]">
               <button
                 type="button"
@@ -719,7 +743,7 @@ export const OwnerNewListingPage: React.FC = () => {
                 disabled={submitting}
                 className="px-8 py-3 bg-[#FF4B26] hover:bg-[#E03713] disabled:opacity-50 text-white font-bold text-xs rounded-xl shadow-lg shadow-[#FF4B26]/25 transition-all flex items-center gap-2 cursor-pointer"
               >
-                {submitting ? 'Submitting to Review...' : 'Publish Listing to Review Queue'}
+                {submitting ? 'Publishing...' : autoPublish ? 'Publish Listing Live Now' : 'Submit for Admin Review'}
               </button>
             </div>
           </div>

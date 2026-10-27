@@ -255,10 +255,20 @@ export const HostelsPage: React.FC = () => {
             <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
             <span className="font-semibold text-slate-900">Verified Hostels & PGs</span>
           </div>
-          <span className="text-slate-500 font-medium hidden sm:inline flex items-center gap-1">
-            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-            100% Zero Brokerage Guaranteed across India
-          </span>
+          <div className="flex items-center gap-3">
+            {user?.role === 'student' && (
+              <button
+                onClick={() => navigate('/student/dashboard')}
+                className="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-[#FFF1ED] text-[#FF4B26] font-bold text-xs hover:bg-[#FFE4DC] transition-colors cursor-pointer"
+              >
+                ← Return to Student Dashboard
+              </button>
+            )}
+            <span className="text-slate-500 font-medium hidden sm:inline flex items-center gap-1">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+              100% Zero Brokerage Guaranteed across India
+            </span>
+          </div>
         </div>
       </div>
 

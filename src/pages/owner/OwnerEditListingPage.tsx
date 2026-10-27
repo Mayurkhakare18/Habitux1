@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { HabituxAPI } from '../../lib/supabase';
-import { Hostel } from '../../types';
+import { Hostel, ListingStatus, VerificationStatus } from '../../types';
 import { 
   Building2, 
   MapPin, 
@@ -10,7 +10,11 @@ import {
   ArrowLeft, 
   Save, 
   Trash2,
-  Plus
+  Plus,
+  ShieldCheck,
+  CheckCircle2,
+  Clock,
+  PauseCircle
 } from 'lucide-react';
 
 export const OwnerEditListingPage: React.FC = () => {
@@ -36,6 +40,8 @@ export const OwnerEditListingPage: React.FC = () => {
   const [wifiAvailable, setWifiAvailable] = useState(true);
   const [acAvailable, setAcAvailable] = useState(true);
   const [curfewPolicy, setCurfewPolicy] = useState('');
+  const [listingStatus, setListingStatus] = useState<ListingStatus>('pending_review');
+  const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>('pending');
 
   useEffect(() => {
     if (!id) return;
@@ -57,6 +63,8 @@ export const OwnerEditListingPage: React.FC = () => {
         setWifiAvailable(found.wifi_available);
         setAcAvailable(found.ac_available);
         setCurfewPolicy(found.curfew_policy || '');
+        setListingStatus(found.listing_status || 'pending_review');
+        setVerificationStatus(found.verification_status || 'pending');
       }
       setLoading(false);
     });
@@ -68,6 +76,7 @@ export const OwnerEditListingPage: React.FC = () => {
     setSaving(true);
 
     try {
+      const finalVerification = listingStatus === 'published' ? 'verified' : verificationStatus;
       await HabituxAPI.updateHostel(id, {
         name,
         description,
@@ -83,6 +92,8 @@ export const OwnerEditListingPage: React.FC = () => {
         wifi_available: wifiAvailable,
         ac_available: acAvailable,
         curfew_policy: curfewPolicy,
+        listing_status: listingStatus,
+        verification_status: finalVerification,
       });
       navigate('/owner/listings');
     } catch (err) {
@@ -129,12 +140,72 @@ export const OwnerEditListingPage: React.FC = () => {
             Edit: {hostel.name}
           </h1>
           <p className="text-xs text-slate-500 mt-1">
-            Status: <span className="uppercase font-bold text-[#FF4B26]">{hostel.verification_status}</span> • ID: {hostel.id}
+            Status: <span className="uppercase font-bold text-[#FF4B26]">{listingStatus}</span> • Verification: <span className="uppercase font-bold text-slate-700">{verificationStatus}</span>
           </p>
         </div>
       </div>
 
       <form onSubmit={handleSubmit} className="bg-white rounded-3xl border border-[#EDE8DF] p-6 sm:p-8 shadow-sm space-y-6">
+        {/* Status Selector */}
+        <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/80 space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <span className="text-xs font-bold text-amber-950 uppercase tracking-wide">
+                Publishing Status & Visibility
+              </span>
+              <p className="text-[11px] text-amber-900/80 mt-0.5">
+                Control whether this hostel is live and discoverable by students on the Explore page.
+              </p>
+            </div>
+            <span className={`px-2.5 py-1 rounded-lg text-[10px] font-bold text-white ${
+              listingStatus === 'published' ? 'bg-emerald-600' : listingStatus === 'paused' ? 'bg-slate-600' : 'bg-amber-500'
+            }`}>
+              {listingStatus.toUpperCase()}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+            <button
+              type="button"
+              onClick={() => setListingStatus('published')}
+              className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                listingStatus === 'published'
+                  ? 'border-emerald-500 bg-emerald-50/90 text-emerald-950 ring-2 ring-emerald-500/30'
+                  : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <span className="block text-xs font-bold text-emerald-700">🟢 Published (Live)</span>
+              <span className="block text-[10px] text-slate-500 mt-0.5">Visible to students in search & booking</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setListingStatus('pending_review')}
+              className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                listingStatus === 'pending_review'
+                  ? 'border-amber-500 bg-amber-50/90 text-amber-950 ring-2 ring-amber-500/30'
+                  : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <span className="block text-xs font-bold text-amber-700">🟡 Under Review</span>
+              <span className="block text-[10px] text-slate-500 mt-0.5">Awaiting verification approval</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setListingStatus('paused')}
+              className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                listingStatus === 'paused'
+                  ? 'border-slate-600 bg-slate-100 text-slate-900 ring-2 ring-slate-400/30'
+                  : 'border-slate-200 bg-white text-slate-600 hover:bg-slate-50'
+              }`}
+            >
+              <span className="block text-xs font-bold text-slate-700">⚪ Paused</span>
+              <span className="block text-[10px] text-slate-500 mt-0.5">Temporarily unlisted / full</span>
+            </button>
+          </div>
+        </div>
+
         <div>
           <label className="block text-xs font-bold text-slate-700 uppercase mb-1.5">
             Hostel Name *
@@ -281,7 +352,7 @@ export const OwnerEditListingPage: React.FC = () => {
           <button
             type="button"
             onClick={() => navigate('/owner/listings')}
-            className="px-5 py-2.5 border border-[#EDE8DF] text-slate-600 font-bold text-xs rounded-xl"
+            className="px-5 py-2.5 border border-[#EDE8DF] text-slate-600 font-bold text-xs rounded-xl cursor-pointer hover:bg-slate-50"
           >
             Cancel
           </button>

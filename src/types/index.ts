@@ -25,7 +25,7 @@ export interface OwnerProfile {
 
 export type PropertyType = 'hostel' | 'pg' | 'co_living' | 'flat';
 export type GenderPolicy = 'boys' | 'girls' | 'co_living' | 'unisex';
-export type ListingStatus = 'draft' | 'pending_review' | 'published' | 'rejected' | 'archived';
+export type ListingStatus = 'draft' | 'pending_review' | 'published' | 'paused' | 'rejected' | 'archived';
 export type VerificationStatus = 'unverified' | 'pending' | 'verified' | 'rejected';
 
 export interface RoomType {
