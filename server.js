@@ -9,8 +9,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const port = process.env.PORT || 8080;
 
-// Health check endpoint for Cloud Run container liveness & readiness probes
-app.get('/health', (req, res) => {
+// Health check endpoints for Cloud Run container liveness & readiness probes
+app.get(['/health', '/healthz', '/_healthz'], (req, res) => {
   res.status(200).json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
