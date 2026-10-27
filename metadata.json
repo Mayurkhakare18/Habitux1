@@ -1,0 +1,6 @@
+{
+  "name": "HABITUX - Verified Student Hostels & PGs",
+  "description": "Zero-brokerage student hostel & PG discovery platform with 100% verified listings, transparent fees, direct owner contact, and instant visit scheduling.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

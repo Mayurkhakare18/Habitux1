@@ -1,0 +1,237 @@
+---
+name: Urban Sanctuary
+colors:
+  surface: '#f7f9fc'
+  surface-dim: '#d8dadd'
+  surface-bright: '#f7f9fc'
+  surface-container-lowest: '#ffffff'
+  surface-container-low: '#f2f4f7'
+  surface-container: '#eceef1'
+  surface-container-high: '#e6e8eb'
+  surface-container-highest: '#e0e3e6'
+  on-surface: '#191c1e'
+  on-surface-variant: '#434654'
+  inverse-surface: '#2d3133'
+  inverse-on-surface: '#eff1f4'
+  outline: '#737685'
+  outline-variant: '#c3c6d6'
+  surface-tint: '#1555d1'
+  primary: '#0650cc'
+  on-primary: '#ffffff'
+  primary-container: '#356ae6'
+  on-primary-container: '#f9f7ff'
+  inverse-primary: '#b3c5ff'
+  secondary: '#525f77'
+  on-secondary: '#ffffff'
+  secondary-container: '#d3e0fd'
+  on-secondary-container: '#56637c'
+  tertiary: '#535a63'
+  on-tertiary: '#ffffff'
+  tertiary-container: '#6b737c'
+  on-tertiary-container: '#f6f9ff'
+  error: '#ba1a1a'
+  on-error: '#ffffff'
+  error-container: '#ffdad6'
+  on-error-container: '#93000a'
+  primary-fixed: '#dbe1ff'
+  primary-fixed-dim: '#b3c5ff'
+  on-primary-fixed: '#00174a'
+  on-primary-fixed-variant: '#003ea6'
+  secondary-fixed: '#d6e3ff'
+  secondary-fixed-dim: '#bac7e4'
+  on-secondary-fixed: '#0e1c31'
+  on-secondary-fixed-variant: '#3a475f'
+  tertiary-fixed: '#dce3ee'
+  tertiary-fixed-dim: '#c0c7d2'
+  on-tertiary-fixed: '#151c24'
+  on-tertiary-fixed-variant: '#404750'
+  background: '#f7f9fc'
+  on-background: '#191c1e'
+  surface-variant: '#e0e3e6'
+  text-primary: '#202B3C'
+  text-secondary: '#697586'
+  border-subtle: '#E4E9F0'
+  success: '#198754'
+  surface-white: '#FFFFFF'
+typography:
+  display-hero:
+    fontFamily: Manrope
+    fontSize: 48px
+    fontWeight: '800'
+    lineHeight: 56px
+    letterSpacing: -0.02em
+  display-hero-mobile:
+    fontFamily: Manrope
+    fontSize: 32px
+    fontWeight: '800'
+    lineHeight: 40px
+    letterSpacing: -0.015em
+  headline-lg:
+    fontFamily: Manrope
+    fontSize: 32px
+    fontWeight: '700'
+    lineHeight: 40px
+    letterSpacing: -0.015em
+  headline-lg-mobile:
+    fontFamily: Manrope
+    fontSize: 24px
+    fontWeight: '700'
+    lineHeight: 32px
+    letterSpacing: -0.01em
+  headline-md:
+    fontFamily: Manrope
+    fontSize: 22px
+    fontWeight: '600'
+    lineHeight: 30px
+    letterSpacing: -0.01em
+  headline-sm:
+    fontFamily: Manrope
+    fontSize: 18px
+    fontWeight: '600'
+    lineHeight: 26px
+  title-md:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: '600'
+    lineHeight: 24px
+  body-lg:
+    fontFamily: Inter
+    fontSize: 16px
+    fontWeight: '400'
+    lineHeight: 26px
+  body-md:
+    fontFamily: Inter
+    fontSize: 14px
+    fontWeight: '400'
+    lineHeight: 22px
+  body-sm:
+    fontFamily: Inter
+    fontSize: 12px
+    fontWeight: '400'
+    lineHeight: 18px
+  label-md:
+    fontFamily: Inter
+    fontSize: 13px
+    fontWeight: '600'
+    lineHeight: 18px
+    letterSpacing: 0.01em
+  label-sm:
+    fontFamily: Inter
+    fontSize: 11px
+    fontWeight: '600'
+    lineHeight: 16px
+    letterSpacing: 0.02em
+  price-display:
+    fontFamily: Manrope
+    fontSize: 20px
+    fontWeight: '800'
+    lineHeight: 24px
+rounded:
+  sm: 0.25rem
+  DEFAULT: 0.5rem
+  md: 0.75rem
+  lg: 1rem
+  xl: 1.5rem
+  full: 9999px
+spacing:
+  gutter: 1.5rem
+  gutter-mobile: 1rem
+  margin: 2rem
+  margin-mobile: 1rem
+  space-xs: 0.25rem
+  space-sm: 0.5rem
+  space-md: 1rem
+  space-lg: 1.5rem
+  space-xl: 2.5rem
+---
+
+## Brand & Style
+
+This design system establishes a high-trust, modern housing discovery environment tailored for collegiate students, young interns, and corporate newcomers navigating urban relocations. The core aesthetic merges SaaS utility with lifestyle hospitality: crisp structural discipline, airy spatial pacing, and approachable warmth. It intentionally avoids cluttered classifieds patterns, choosing instead a curated, reliable marketplace ethos that instills confidence in parents while delivering a seamless, digital-first experience for youth.
+
+The visual style blends **Corporate / Modern** precision with soft **Contemporary SaaS** interfaces:
+- **Tone:** Authoritative, hospitable, transparent, and frictionless.
+- **Visual Tenets:** Generous breathing room, structural 1px dividers, micro-depth ambient layering, and tactile interaction surfaces.
+- **Market Specifics:** Optimized for high-density listing comparisons (amenities, meal plans, curfew rules, deposit safeguards, and commute proximity to university clusters or tech parks).
+
+## Colors
+
+The palette balances deep architectural depth with energetic electric utility:
+
+- **Primary (`#356AE6`)**: The navigational beacon, applied to primary CTAs, active segmented toggles, key selection rings, and interactive map pins.
+- **Secondary (`#17243A`)**: Anchors deep visual hierarchy. Used for header shells, heavy display headings, dark navigation ribbons, and high-impact structural blocks.
+- **Tertiary (`#EDF4FF`)**: Soft container wash providing background contrast behind badges, chips, icon enclosures, and interactive hover planes without visual vibration.
+- **Neutral (`#F7F9FC`)**: The default canvas surface, yielding a clinical, bright foundation that isolates elevated white cards cleanly.
+- **Functional Semantics**:
+  - `text-primary` (`#202B3C`): Delivers high contrast for primary data, titles, and property metrics.
+  - `text-secondary` (`#697586`): Manages supplementary specs (sharing type, distance to metro, deposit terms).
+  - `border-subtle` (`#E4E9F0`): Forms crisp 1px division rules for card partitions, field frames, and sticky toolbars.
+  - `success` (`#198754`): Signals verified properties, available beds, food license verification, and secure deposit confirmations.
+
+## Typography
+
+The type system pairs **Manrope** for expressive, geometric structural hierarchy with **Inter** for data-dense microcopy and legible listing consumption.
+
+- **Manrope:** Drives titles, modal banners, price declarations, and section headings. Its wide geometric footprint brings a contemporary hospitality personality.
+- **Inter:** Handles body copy, specification tables, amenity checklists, and user reviews. High x-height and neutral grotesque terminals maintain complete legibility in dense multi-column filters and mobile screens.
+- **Hierarchy Notes:** Numeric currency figures (INR / ₹) utilize tabular alignment within `Manrope` to eliminate jitter across dynamic filter sliders and card price tags.
+
+## Layout & Spacing
+
+A disciplined 8px base rhythm governs the layout:
+
+- **Desktop (≥1200px):** 12-column responsive grid with `2rem` page margins and `1.5rem` gutters. Accommodates split views (sticky filter rail / scrollable listing grid / interactive sticky map view). Max container width is fixed at `1280px` for optimal scanning.
+- **Tablet (768px – 1199px):** 8-column layout. Sidebars collapse into sliding bottom sheets or floating top filter chips.
+- **Mobile (<768px):** 4-column layout with `1rem` margins and `1rem` gutters. Search bars dock into sticky top bars, while booking inquiries and availability triggers lock to a bottom sheet bar.
+- **Spatial Stacking:**
+  - `space-xs` (4px): Tag padding, badge gap, inline icons.
+  - `space-sm` (8px): Form input inner vertical clearance, list item gaps.
+  - `space-md` (16px): Card internal content padding, segmented control spacing.
+  - `space-lg` (24px): Card container margins, section separators within modals.
+  - `space-xl` (40px): Inter-module section offsets and landing block dividers.
+
+## Elevation & Depth
+
+Visual hierarchy uses a refined blend of subtle surface borders and low-opacity, blue-tinted ambient shadows. Avoid dark, muddy drop shadows.
+
+- **Level 0 (Flat Ground):** Base page surface (`#F7F9FC`). Used behind listing rails and informational landing sections.
+- **Level 1 (Card Standard):** `#FFFFFF` fill with a `1px solid #E4E9F0` perimeter border and `box-shadow: 0 1px 3px rgba(23, 36, 58, 0.04), 0 4px 12px rgba(23, 36, 58, 0.03)`. Used for search containers, property cards, and review modules.
+- **Level 2 (Hover & Active Surfaces):** Elevated state upon card hover or popover reveal. `box-shadow: 0 4px 16px rgba(53, 106, 230, 0.08), 0 8px 24px rgba(23, 36, 58, 0.06)`. Accompanied by a border color shift to `rgba(53, 106, 230, 0.3)`.
+- **Level 3 (Overlay & Sheet):** Sticky navigation headers, floating bottom CTAs, and dropdown panels. Employs `backdrop-filter: blur(12px)` over `rgba(255, 255, 255, 0.85)` framed with a bottom `1px solid #E4E9F0` rim.
+- **Level 4 (Modals & Lightboxes):** Centered view overlays with `box-shadow: 0 20px 40px rgba(23, 36, 58, 0.16)`.
+
+## Shapes
+
+The design system employs **Level 2 (Rounded)** curvature to convey approachable modernism without compromising structured density:
+
+- **Base Radius (0.5rem / 8px):** Applied to form inputs, search triggers, filter tags, and inline badges.
+- **Large Radius (1rem / 16px):** Property listing cards, map preview flyouts, and modal containers.
+- **Extra-Large Radius (1.5rem / 24px):** Hero search capsules, lifestyle category chips, and highlighted promotional callouts.
+- **Interactive Pill (`9999px`):** Reserved exclusively for status indicators (e.g., "Verified Property", "Only 2 Beds Left", "AC Triple Sharing") and floating floating-action pill buttons.
+
+## Components
+
+### Buttons
+- **Primary:** Background `#356AE6`, text `#FFFFFF`, font `Inter` 600. Height 44px (desktop) / 48px (mobile touch target). Border radius `8px`. Hover: `#2855C4`. Focus: 3px outer ring `#EDF4FF` with `#356AE6` border.
+- **Secondary:** Surface `#EDF4FF`, text `#356AE6`. Hover: `#DCE8FD`. Ideal for "Schedule Visit" or "View Floorplan".
+- **Ghost/Tertiary:** Surface transparent, text `#202B3C`, border `1px solid #E4E9F0`. Hover: `#F7F9FC`.
+
+### Form Fields & Interactive Filter Consoles
+- **Search Inputs:** Background `#FFFFFF`, border `1px solid #E4E9F0`, text `#202B3C`, placeholder `#697586`. Rounded `8px`. Focus: border `#356AE6` and dual-pixel shadow ring.
+- **Filter Bar Container:** Floating horizontal ribbon or side panel with segmented switches for Gender (Boys / Girls / Co-living), Sharing Type (Single, Double, Triple), Budget Range slider, and AC/Food toggles.
+
+### Cards (Property & Room Units)
+- **Structure:** Level 1 elevation with image carousel top (aspect ratio 16:10), inner padding `1rem`, badges placed absolute top-left on image with a translucent dark backing (`rgba(23, 36, 58, 0.6)` blur).
+- **Meta Block:** Property name in `headline-sm`, micro-subtext for proximity to universities/metro stations with inline map-pin glyphs.
+- **Footer Section:** Crisp border-top divider separating amenities row from the pricing layout: tabular bold `price-display` + "/ month" baseline label paired with a compact "Explore" CTA.
+
+### Badges & Chips
+- **Trust Badges:** Pill-shaped, background `#EDF4FF`, text `#356AE6`, featuring checkmark icons. For safety guarantees, use background `#E8F5E9` with text `#198754`.
+- **Filter Chips:** Inactive: `#FFFFFF` border `1px solid #E4E9F0`, text `#697586`. Active: `#17243A` background, text `#FFFFFF`, border `#17243A`.
+
+### Lists & Amenity Grids
+- **Spec Grid:** 2-column or 4-column iconography units (Wi-Fi speed, 3x Meals, Biometric Entry, Power Backup). Icon housed inside a 32x32px `#EDF4FF` rounded squircle, icon color `#356AE6`.
+
+### Checkboxes & Radios
+- **Checkbox:** 18x18px, border `1.5px solid #E4E9F0`, radius `4px`. Checked state: background `#356AE6` with white stroke checkmark.
+- **Radio:** 18x18px concentric circle with `#356AE6` core on selection.

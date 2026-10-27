@@ -1,0 +1,1195 @@
+# HABITUX — Complete Full-Stack Application Build Prompt for Google AI Studio
+
+## 1. Project Objective
+
+Act as a senior full-stack engineer, UI/UX engineer, database architect, security engineer, and QA engineer.
+
+Transform the existing **HABITUX visiting page** into a fully functional, production-oriented hostel discovery and enquiry platform for Indian students, interns, working professionals, and travellers.
+
+The existing HTML visiting page is the **primary visual design reference**. Preserve its brand identity, section order, layout, typography, spacing, colors, content style, and responsive behavior wherever possible. Do not replace it with a generic template or redesign it from scratch.
+
+Build the complete application with a real frontend, persistent database, authentication, authorization, file uploads, business logic, and working dashboards.
+
+**This is not a static website task. It is a complete full-stack application task.**
+
+### Core product goal
+
+Habitux helps users discover suitable hostels and paying guest accommodations, compare actual costs and amenities, contact property owners, submit booking enquiries, and track responses.
+
+Hostel owners can register, submit properties for review, manage listings, update room availability, and respond to enquiries. Administrators can review submitted properties, manage reported content, and maintain platform integrity.
+
+Do not claim that a property, review, rating, verification, statistic, or availability status is genuine unless it is supported by actual stored data and the relevant verification process.
+
+---
+
+## 2. Existing Visiting Page: Preserve the Design
+
+Use the supplied Habitux HTML as the visual source of truth.
+
+### Brand system
+
+- Product name: HABITUX.
+- Primary brand color: `#FF4B26`.
+- Primary dark color: `#E03713`.
+- Brand light: `#FFF1ED`.
+- Brand soft: `#FFE4DC`.
+- Main canvas: `#FAF8F5`.
+- Alternate canvas: `#F4F0E8`.
+- Primary text: `#0F172A`.
+- Secondary text: `#475569`.
+- Muted text: `#64748B`.
+- Borders: `#EDE8DF`.
+- Dark panels/footer: `#0A1120` and `#0F172A`.
+- Success color: emerald green.
+- Typography: Plus Jakarta Sans for headings and Inter for body text.
+- Use rounded cards, subtle borders, restrained shadows, clear visual hierarchy, and accessible contrast.
+
+### Existing page sections to retain
+
+1. Top announcement strip featuring zero brokerage messaging.
+2. Sticky navigation with the Habitux logo, Find Hostels, How It Works, Compare, For Owners, FAQs, Student Login, List Property, and Find Hostel actions.
+3. Hero section with the headline “Stop chasing rooms. Start living.”
+4. Hero property preview card and accommodation image.
+5. Location and academic hub strip.
+6. Search console with stay categories, location, budget, and room-sharing filters.
+7. Old hostel-hunting process versus the Habitux approach.
+8. Feature toolkit covering brokerage, photos, owner contact, food, Wi-Fi, power, laundry, security, deposits, room sharing, distance, and house rules.
+9. Student-requested features and comparison preview.
+10. Featured hostel cards with filters, saved-hostel controls, and property details.
+11. Hostel search and comparison sections present in the supplied HTML.
+12. How It Works and student/owner information sections.
+13. FAQ accordion.
+14. Student login and registration interface.
+15. Owner registration and enquiry interfaces.
+16. Contact, details, and authentication dialogs.
+17. Structured dark footer with exploration links, owner links, privacy, and terms.
+
+Inspect the complete supplied HTML and retain all existing sections, including sections farther down the page. Do not silently omit sections because the file is long.
+
+### Important design rule
+
+Replace the current standalone HTML event-handler implementation with maintainable React components, hooks, and TypeScript. Reproduce the existing visual design as closely as possible.
+
+Do not simply embed the old HTML as an iframe or render it as an unmaintainable block.
+
+Use reusable components for the header, footer, search console, property cards, modals, comparison table, FAQ items, and responsive navigation.
+
+---
+
+## 3. Required Technology Stack
+
+Use the following stack unless the existing AI Studio project already has a compatible implementation that should be preserved.
+
+### Frontend
+
+- React.
+- TypeScript.
+- Vite.
+- Tailwind CSS or the existing styling system needed to reproduce the supplied design.
+- React Router for application routes.
+- React Hook Form with Zod for form validation.
+- Lucide React or the existing Material Symbols design language for icons.
+- A lightweight toast and dialog system.
+- A maintainable API/data-access layer.
+
+### Backend and database
+
+- Supabase Authentication.
+- Supabase PostgreSQL database.
+- Supabase Storage for property images and relevant user-uploaded assets.
+- PostgreSQL Row Level Security (RLS) for data authorization.
+- Supabase Edge Functions or a secure server-side API for privileged operations, notifications, administrative actions, and integrations requiring secrets.
+
+Never expose a Supabase service-role key, private API key, database password, or privileged credential in browser code.
+
+Use the Supabase publishable/anonymous client key only with correctly configured RLS policies.
+
+### Environment configuration
+
+Create `.env.example` containing documented placeholders for required configuration, such as:
+
+- `VITE_SUPABASE_URL`
+- `VITE_SUPABASE_ANON_KEY` or the appropriate publishable key for the installed Supabase SDK.
+- Any server-only credentials required by Edge Functions or a backend service.
+
+Never commit actual secrets. Validate environment variables during application startup and display a useful setup error when required configuration is missing.
+
+Do not hardcode project credentials.
+
+### Dependency rules
+
+Inspect the existing repository before installing packages. Reuse compatible dependencies, avoid unnecessary replacements, and pin compatible versions in the lockfile.
+
+Do not create a separate backend framework merely for appearance. Implement each operation using an appropriate secure Supabase mechanism. If an Express API is genuinely needed, keep it separate from browser code and document its setup and deployment.
+
+---
+
+## 4. Application Architecture
+
+Organize the codebase into clear modules.
+
+Suggested structure:
+
+```text
+habitux/
+├── public/
+│   └── assets/
+├── src/
+│   ├── app/
+│   │   ├── App.tsx
+│   │   ├── router.tsx
+│   │   └── providers.tsx
+│   ├── components/
+│   │   ├── layout/
+│   │   ├── landing/
+│   │   ├── search/
+│   │   ├── hostels/
+│   │   ├── forms/
+│   │   ├── dialogs/
+│   │   └── ui/
+│   ├── pages/
+│   │   ├── HomePage.tsx
+│   │   ├── SearchResultsPage.tsx
+│   │   ├── HostelDetailsPage.tsx
+│   │   ├── ComparePage.tsx
+│   │   ├── LoginPage.tsx
+│   │   ├── RegisterPage.tsx
+│   │   ├── ForgotPasswordPage.tsx
+│   │   ├── StudentDashboardPage.tsx
+│   │   ├── OwnerDashboardPage.tsx
+│   │   └── AdminDashboardPage.tsx
+│   ├── features/
+│   │   ├── auth/
+│   │   ├── listings/
+│   │   ├── search/
+│   │   ├── favorites/
+│   │   ├── enquiries/
+│   │   ├── reviews/
+│   │   └── owner/
+│   ├── lib/
+│   │   ├── supabase.ts
+│   │   ├── validation.ts
+│   │   └── utils.ts
+│   ├── services/
+│   ├── hooks/
+│   ├── types/
+│   └── styles/
+├── supabase/
+│   ├── migrations/
+│   ├── functions/
+│   └── seed.sql
+├── tests/
+├── .env.example
+├── README.md
+└── package.json
+```
+
+Adapt this structure to the existing repository where appropriate. Do not create duplicate files or duplicate Supabase clients.
+
+---
+
+## 5. Authentication and User Roles
+
+Implement real Supabase authentication, not simulated login dialogs.
+
+### Student registration
+
+Collect:
+
+- Full name.
+- Email.
+- Mobile number, if provided.
+- Password.
+- Password confirmation.
+- Acceptance of applicable terms and privacy policy.
+
+Requirements:
+
+- Validate input on the client and enforce relevant constraints on the server/database.
+- Use Supabase Auth for account creation.
+- Handle email verification according to project configuration.
+- Create the corresponding profile securely.
+- Display actionable validation and authentication errors.
+- Never store plaintext passwords.
+- Prevent duplicate profile creation through a reliable database trigger or an idempotent server-side process.
+
+### Login
+
+Support email and password login using Supabase Auth.
+
+Include:
+
+- Loading state.
+- Invalid credentials message.
+- Email verification state where applicable.
+- Password reset link.
+- Logout.
+- Session persistence and restoration.
+- Redirects to the appropriate authorized destination.
+
+Do not claim login succeeded before Supabase confirms it.
+
+### Password recovery
+
+Implement the complete password reset process:
+
+1. User submits email.
+2. Supabase sends a recovery email if configured.
+3. The user opens the recovery link.
+4. The application validates the recovery session.
+5. The user sets a new password.
+6. The application displays the actual result.
+
+Do not invent an OTP delivery service or show a fake OTP verification screen as if it were connected.
+
+### Roles
+
+Support three distinct roles:
+
+- `student`
+- `owner`
+- `admin`
+
+Use a secure role-management mechanism. A user must not be able to promote their own account to owner or admin by editing client state or submitting a modified request.
+
+Public registration should not grant administrator privileges.
+
+Owner registration must follow an explicit owner-onboarding workflow. Administrative role assignment must be protected.
+
+Use route guards for user experience, but rely on RLS and server-side authorization for actual security.
+
+---
+
+## 6. Database Design
+
+Create version-controlled SQL migrations. Do not rely on manually creating tables through the dashboard without recording the schema.
+
+Use UUID primary keys, timestamps, foreign keys, appropriate unique constraints, and indexes.
+
+### Table A: `profiles`
+
+Fields:
+
+- `id` — UUID referencing the authenticated user.
+- `full_name`.
+- `email`.
+- `phone`.
+- `role`.
+- `avatar_url`.
+- `created_at`.
+- `updated_at`.
+
+Protect role changes and profile access using appropriate RLS policies.
+
+### Table B: `owner_profiles`
+
+Fields:
+
+- `id`.
+- `user_id`.
+- `business_name`.
+- `contact_phone`.
+- `business_address`.
+- `identity_review_status`.
+- `created_at`.
+- `updated_at`.
+
+Do not expose sensitive identity documents publicly.
+
+### Table C: `hostels`
+
+Fields:
+
+- `id`.
+- `owner_id`.
+- `name`.
+- `slug`.
+- `description`.
+- `property_type`.
+- `gender_policy`.
+- `address_line`.
+- `locality`.
+- `city`.
+- `state`.
+- `postal_code`.
+- `latitude`, nullable.
+- `longitude`, nullable.
+- `distance_to_college_km`, nullable and only when supported by a real calculation or source.
+- `monthly_rent_min`.
+- `monthly_rent_max`.
+- `security_deposit`.
+- `electricity_policy`.
+- `electricity_charge`, nullable.
+- `food_available`.
+- `meal_plan_description`.
+- `wifi_available`.
+- `wifi_speed_mbps`, nullable.
+- `ac_available`.
+- `laundry_available`.
+- `power_backup`.
+- `security_features`.
+- `curfew_policy`.
+- `visitor_policy`.
+- `cancellation_policy`.
+- `listing_status`.
+- `verification_status`.
+- `published_at`, nullable.
+- `created_at`.
+- `updated_at`.
+
+Use constrained values for status fields. Listing status and verification status are separate concepts.
+
+Suggested listing statuses: `draft`, `pending_review`, `published`, `rejected`, `archived`.
+
+Suggested verification statuses: `unverified`, `pending`, `verified`, `rejected`.
+
+Only authorized administrators or the configured verification process may mark a property verified.
+
+### Table D: `hostel_images`
+
+Fields:
+
+- `id`.
+- `hostel_id`.
+- `storage_path`.
+- `caption`.
+- `display_order`.
+- `created_at`.
+
+Use Supabase Storage for image files and store the corresponding object paths in the database. Validate file type, size, upload permissions, and image ownership.
+
+### Table E: `room_types`
+
+Fields:
+
+- `id`.
+- `hostel_id`.
+- `room_name`.
+- `sharing_capacity`.
+- `monthly_rent`.
+- `available_beds`.
+- `total_beds`.
+- `air_conditioned`.
+- `description`.
+- `created_at`.
+- `updated_at`.
+
+Availability must be stored and updated through authorized operations. Do not infer availability merely because a hostel listing is published.
+
+### Table F: `favorites`
+
+Fields:
+
+- `id`.
+- `user_id`.
+- `hostel_id`.
+- `created_at`.
+
+Add a unique constraint on `(user_id, hostel_id)`.
+
+### Table G: `enquiries`
+
+Fields:
+
+- `id`.
+- `student_id`.
+- `hostel_id`.
+- `room_type_id`, nullable.
+- `move_in_date`.
+- `expected_duration_months`, nullable.
+- `message`.
+- `status`.
+- `owner_response`.
+- `created_at`.
+- `updated_at`.
+
+Suggested statuses: `submitted`, `viewed`, `responded`, `visit_scheduled`, `accepted`, `declined`, `cancelled`.
+
+An enquiry is a request for contact or accommodation, not a confirmed booking.
+
+### Table H: `reviews`
+
+Fields:
+
+- `id`.
+- `user_id`.
+- `hostel_id`.
+- `rating`, integer from 1 to 5.
+- `review_text`.
+- `moderation_status`.
+- `created_at`.
+- `updated_at`.
+
+Prevent duplicate reviews where the chosen policy requires one review per user per property. Only show published reviews in public rating aggregates. Do not claim a review is from a verified resident unless that status is supported by a real verification process.
+
+### Table I: `review_reports`
+
+Fields:
+
+- `id`.
+- `review_id`.
+- `reporter_id`.
+- `reason`.
+- `status`.
+- `created_at`.
+
+### Table J: `notifications`
+
+Fields:
+
+- `id`.
+- `user_id`.
+- `type`.
+- `title`.
+- `message`.
+- `related_entity_type`.
+- `related_entity_id`.
+- `read_at`.
+- `created_at`.
+
+### Table K: `listing_verification_events`
+
+Fields:
+
+- `id`.
+- `hostel_id`.
+- `admin_id`.
+- `action`.
+- `reason`.
+- `created_at`.
+
+This table must be protected against unauthorized inserts, updates, and deletes. Maintain an audit trail of administrative decisions.
+
+### Database requirements
+
+- Add indexes for city, locality, listing status, verification status, owner ID, rent, and common search filters.
+- Add constraints for valid rent ranges, valid ratings, nonnegative deposits, and valid bed counts.
+- Use transactions or appropriate database functions for multi-step state changes.
+- Create a migration rollback or recovery plan where practical.
+- Document the schema and relationships.
+- Avoid duplicating computed values without a reason.
+- Use database-backed pagination for listing queries.
+- Never use browser local storage as the authoritative store for users, properties, enquiries, or reviews.
+
+---
+
+## 7. Row Level Security and Authorization
+
+Enable RLS on every table exposed through the Supabase client.
+
+Implement and test these access rules:
+
+### Public visitors
+
+- Read published, publicly visible hostel listings.
+- Read public hostel images.
+- Read published reviews and their permitted aggregate information.
+- Cannot read private user details, owner identity information, private enquiries, or internal verification notes.
+- Cannot modify listings, room inventory, reviews belonging to other users, or administrative records.
+
+### Students
+
+- Read and update only permitted fields of their own profile.
+- Create and remove their own favorites.
+- Submit enquiries for published hostels.
+- Read and cancel their own enquiries where the state transition permits.
+- Create, edit, or delete only their own reviews, subject to moderation rules.
+- Read and mark their own notifications as read.
+- Cannot access other students' private contact information or enquiries.
+
+### Owners
+
+- Access only their own owner profile.
+- Create and edit their own listings.
+- Upload and delete images belonging to their own permitted listings.
+- Manage their own room types and availability.
+- Read enquiries addressed to their own listings.
+- Respond to enquiries for their own listings.
+- Cannot approve their own verification status or access other owners' private data.
+
+### Administrators
+
+- Perform privileged actions only through a trusted authorization mechanism.
+- Review submitted listings and reports.
+- Approve or reject verification requests with a reason.
+- Manage moderation status and platform-level records.
+- Create an audit event for significant administrative actions.
+
+Do not assume that hiding a button protects a resource. Test direct API access and direct database requests under each role.
+
+---
+
+## 8. Functional Visiting Page
+
+Convert all existing interactive elements to real functionality.
+
+### Announcement strip and navigation
+
+- Keep all existing links.
+- Ensure every anchor points to a valid section or route.
+- Implement responsive mobile navigation.
+- Connect Student Log In to the real authentication page or dialog.
+- Connect List Property and I'm a Hostel Owner to owner onboarding.
+- Connect Find Hostel and Explore Hostels to the actual search experience.
+- Do not display an invented number of available properties.
+
+### Hero
+
+Preserve the headline:
+
+“Stop chasing rooms. Start living.”
+
+Keep the description, calls to action, accommodation preview, and feature-check strip.
+
+The hero property card must load from an actual published listing when suitable data exists. If no eligible record exists, show a designed empty-state or clearly labelled illustrative preview.
+
+Do not use a fictional property as a verified property.
+
+### Search console
+
+Implement real search using the database.
+
+Inputs:
+
+- City, area, or college.
+- Accommodation category.
+- Minimum and maximum monthly budget or a budget band.
+- Room-sharing preference.
+- Optional gender preference.
+- Amenities.
+- Optional move-in date if availability supports it.
+
+Behavior:
+
+- Validate the search.
+- Apply all selected filters to the database query.
+- Preserve filters in URL query parameters where appropriate.
+- Support pagination.
+- Display loading, no-results, and error states.
+- Allow users to clear filters.
+- Keep selected filter controls visually consistent with the original page.
+- Ensure the category cards change the actual result set, not only their own visual style.
+
+Use real database results. Do not return every listing regardless of the chosen location or budget.
+
+### Search results
+
+Create a dedicated search-results route.
+
+Each listing card should display available data such as:
+
+- Property image.
+- Name.
+- Location.
+- Starting rent or actual room-level prices.
+- Room types.
+- Amenities.
+- Published review average and count, when reviews exist.
+- Verification status, only when officially verified.
+- Available room information, only when the data is current.
+
+Include sorting by price and relevant criteria. Do not fabricate distance calculations or ratings.
+
+If location search is basic text matching, label and implement it honestly. Use a geocoding or distance service only if configured and secured.
+
+### Hostel details
+
+Create a route such as `/hostels/:slug`.
+
+Show:
+
+- Image gallery.
+- Property description.
+- Address and locality.
+- Actual room types and prices.
+- Deposit and electricity rules.
+- Amenities.
+- Food plan and other relevant details.
+- House rules.
+- Actual published reviews.
+- Current availability information when maintained by the owner.
+- Save to favorites.
+- Contact owner or submit an enquiry.
+
+Do not expose the owner's private email or phone number to public visitors unless the owner has explicitly configured it for public display. Prefer an enquiry form or an intentional contact action.
+
+### Comparison engine
+
+Implement a functional comparison page.
+
+Allow students to select a small number of hostels, for example up to three, and compare:
+
+- Monthly rent.
+- Security deposit.
+- Electricity policy.
+- Room-sharing options.
+- Food availability.
+- Wi-Fi information.
+- Laundry.
+- Air conditioning.
+- Power backup.
+- Security features.
+- Curfew and visitor rules.
+- Published review score, if available.
+
+Use actual listing fields and show “Not provided” when data is missing.
+
+Do not insert fictional values merely to fill a comparison cell.
+
+### Featured hostels
+
+Keep the current card layout, category tabs, image treatment, and buttons.
+
+Replace hardcoded property cards with database queries for eligible published listings.
+
+The tabs should filter actual records. The Details button should open the selected property's details page or a working detail dialog.
+
+The favorite icon should create or remove a persistent favorite for an authenticated student. For anonymous users, prompt them to log in without pretending that a server-side favorite has been saved.
+
+### FAQ
+
+Keep the existing accordion design. Make the accordion accessible by keyboard and screen readers.
+
+### Footer
+
+Keep the original structure and style.
+
+Connect location links to valid prefilled searches, owner links to owner onboarding, and privacy and terms links to actual pages.
+
+Do not claim a registered company identity, certification, or verified accommodation standard unless the project owner has supplied supporting information.
+
+---
+
+## 9. Student Dashboard
+
+Create a protected `/student/dashboard` route.
+
+### Dashboard overview
+
+Display real data for:
+
+- Saved hostels.
+- Enquiries submitted.
+- Enquiry status.
+- Recent activity.
+- Profile completeness where applicable.
+
+Do not show invented dashboard totals.
+
+### Saved hostels
+
+- Load favorites from the database.
+- Remove saved hostels.
+- Open hostel details.
+- Handle deleted or unpublished listings gracefully.
+
+### My enquiries
+
+Display each enquiry with:
+
+- Property name.
+- Date submitted.
+- Selected room type, when applicable.
+- Move-in date.
+- Current status.
+- Owner response, when available.
+
+Allow cancellation only when the state transition permits it.
+
+### Profile
+
+Allow the student to update permitted profile fields.
+
+Validate phone number and email changes appropriately. Never let profile updates change the user's role.
+
+### Notifications
+
+Display relevant enquiry updates and account notifications. Persist read/unread state.
+
+---
+
+## 10. Hostel Owner Onboarding and Dashboard
+
+Create a protected owner workflow.
+
+### Owner registration
+
+Collect:
+
+- Owner or manager name.
+- Business name, if applicable.
+- Contact details.
+- Property information where available.
+- Agreement to the platform's owner terms.
+
+Validate all fields and persist the registration.
+
+If an owner requires administrative approval, display a pending state and prevent unpublished listings from appearing publicly.
+
+### Add hostel listing
+
+Build a multi-section listing form.
+
+Sections:
+
+1. Basic property information.
+2. Address and locality.
+3. Property type and accommodation policy.
+4. Room types and bed inventory.
+5. Rent, deposit, and electricity policy.
+6. Food and meal information.
+7. Amenities and facilities.
+8. Curfew, visitor, and house rules.
+9. Photo uploads.
+10. Preview and submission.
+
+Requirements:
+
+- Autosave a draft when practical.
+- Validate required fields.
+- Validate price ranges and bed counts.
+- Upload images to Supabase Storage.
+- Store image paths in the database.
+- Allow the owner to reorder images.
+- Prevent another owner from modifying the listing.
+- Support draft, pending review, published, rejected, and archived states.
+- Provide rejection reasons when an administrator rejects a listing.
+- Do not show a verification badge simply because the owner submitted a listing.
+
+### Owner dashboard
+
+Create `/owner/dashboard` with:
+
+- Overview of the owner's listings.
+- Listing status.
+- Room availability.
+- Incoming enquiries.
+- Enquiry response actions.
+- Add listing.
+- Edit listing.
+- Archive listing.
+- Property image management.
+- Profile settings.
+
+Only show counts derived from real records.
+
+### Room availability
+
+Allow authorized owners to update room capacity and available beds.
+
+Validate changes to avoid negative inventory or available beds exceeding total beds. Use a transactional database operation if multiple fields must change together.
+
+Do not imply that an enquiry automatically reserves a bed.
+
+---
+
+## 11. Enquiry and Contact System
+
+Implement a genuine enquiry lifecycle.
+
+### Student flow
+
+1. Open a published hostel.
+2. Select a room type if available.
+3. Enter move-in date and expected duration.
+4. Enter an optional message.
+5. Submit the enquiry.
+6. Receive a server-confirmed success state.
+7. View the enquiry in the student dashboard.
+
+Require authentication if the product's selected policy requires it.
+
+### Owner flow
+
+1. Receive the enquiry in the owner dashboard.
+2. View only enquiries for the owner's listings.
+3. Mark the enquiry viewed where supported.
+4. Send a response.
+5. Update the enquiry status through permitted transitions.
+6. Notify the student of the update.
+
+Validate all state transitions. Prevent arbitrary status changes from the client.
+
+### WhatsApp integration
+
+The existing page includes WhatsApp-oriented calls to action.
+
+Implement a real WhatsApp deep link only when a legitimate, explicitly configured contact number is available and public contact is permitted.
+
+Use a correctly encoded message and international phone format.
+
+If no number is configured, offer the internal enquiry form instead.
+
+Do not claim a message was sent, an owner was contacted, or a response was received merely because the user clicked a button.
+
+Do not implement a fictional WhatsApp bot or simulated conversation. Any actual WhatsApp Business API integration requires its own authorized configuration and server-side credentials.
+
+---
+
+## 12. Reviews and Ratings
+
+Implement reviews as database-backed records.
+
+- Allow eligible authenticated users to submit a rating and written review.
+- Enforce a rating between 1 and 5.
+- Validate review length.
+- Prevent unauthorized edits to other users' reviews.
+- Support reporting inappropriate reviews.
+- Support moderation by authorized administrators.
+- Calculate public averages from eligible published reviews.
+- Display an empty state when no reviews exist.
+- Distinguish published reviews from pending or rejected reviews.
+
+Do not invent review counts, review text, reviewer identities, or ratings.
+
+If a verified-stay review policy is introduced, enforce the eligibility rule through real data and secure server-side logic.
+
+---
+
+## 13. Admin Dashboard and Listing Verification
+
+Create a protected `/admin` area.
+
+### Listing review queue
+
+Display:
+
+- Pending property submissions.
+- Submitted property details.
+- Images.
+- Owner information appropriate for administrative use.
+- Missing information.
+- Verification history.
+
+### Actions
+
+- Approve publication where policy permits.
+- Approve verification only after the defined verification checks have been completed.
+- Reject a submission with a mandatory reason.
+- Request corrections.
+- Archive inappropriate or outdated content.
+- Review reported listings and reviews.
+
+### Audit trail
+
+Every privileged action must record the administrator, property, action, timestamp, and reason where applicable.
+
+Do not allow client-side role manipulation or an owner to approve their own property.
+
+If the project does not yet have a real verification procedure, label the status “Pending review” or “Unverified.” Do not claim physical inspections, identity checks, or document verification have taken place.
+
+---
+
+## 14. Real Data Policy
+
+The application must distinguish between actual user-generated records, genuine configured property data, and illustrative content.
+
+### Required behavior
+
+- Search results come from the database.
+- Favorite records persist in the database.
+- Enquiries persist in the database.
+- Reviews persist in the database.
+- Owner listings persist in the database.
+- Images load from valid configured assets or Supabase Storage.
+- Verification status reflects an authorized decision.
+- Statistics are computed from actual records.
+
+### Initial database state
+
+Do not fabricate live properties, real customer testimonials, review counts, verification badges, or business metrics.
+
+If no properties have been submitted yet, the visiting page must still look complete. Use designed empty states, explanatory content, and calls to action.
+
+For development testing, create a separate, clearly labelled seed dataset only if needed. Document it, keep it separate from production, and never present seed records as genuine verified accommodation.
+
+Remove or replace unsupported claims from the existing HTML, including fixed numbers of listings, student counts, reviews, vacant beds, Wi-Fi measurements, and claims of physical verification.
+
+Preserve the visual layout when replacing such claims.
+
+Do not display an invented company registration or unsupported legal identity in the footer.
+
+---
+
+## 15. Search, Performance, and Reliability
+
+Implement:
+
+- Database-backed pagination.
+- Indexed search fields.
+- Debounced text search when useful.
+- Loading skeletons that match the existing design.
+- Empty-result states.
+- Error states with retry actions.
+- Image loading fallbacks.
+- Lazy loading for below-the-fold images.
+- Optimistic updates only when rollback behavior is implemented.
+- Form submission protection against duplicate requests.
+- Responsive layouts for desktop, tablet, and mobile.
+- Accessible focus states and keyboard navigation.
+- Correct document titles and metadata.
+- Sensible error logging without leaking secrets or private user data.
+
+Avoid fetching every database record into the browser and filtering it there.
+
+Do not use arbitrary timeouts to simulate successful API calls.
+
+---
+
+## 16. Security Requirements
+
+Treat security as a core feature.
+
+- Enable RLS for all exposed tables.
+- Enforce authorization on the database or trusted server.
+- Validate inputs on both client and server.
+- Restrict file types, file sizes, upload paths, and object ownership.
+- Protect privileged functions.
+- Never store passwords manually.
+- Never expose service-role credentials.
+- Prevent mass assignment of sensitive fields such as role and verification status.
+- Sanitize user-generated text when rendering content.
+- Use parameterized database operations and safe query construction.
+- Protect administrative endpoints and state changes.
+- Avoid exposing private contact information through public listing queries.
+- Implement appropriate rate limits for sensitive operations where supported.
+- Avoid logging authentication tokens, passwords, or confidential personal information.
+- Provide clear error messages without leaking internal stack traces.
+
+Document any security controls that still require configuration outside the codebase.
+
+---
+
+## 17. Deployment and Setup
+
+Prepare the project for deployment.
+
+### Frontend
+
+Deploy the React/Vite frontend to Vercel or another compatible static frontend host.
+
+Configure the correct build command and output directory.
+
+Set up SPA route rewrites so routes such as `/hostels/:slug`, `/student/dashboard`, and `/owner/dashboard` work after refreshing the browser.
+
+### Backend
+
+Use Supabase for Auth, PostgreSQL, Storage, and configured Edge Functions. Deploy Edge Functions separately using the appropriate Supabase deployment workflow.
+
+If an Express service is introduced, document how it is deployed and configure the frontend API base URL using environment variables.
+
+Do not assume that deploying the frontend also deploys the backend.
+
+### Database
+
+Provide:
+
+- SQL migration files.
+- Required database policies.
+- Storage bucket setup.
+- Edge Function configuration.
+- Environment variable documentation.
+- Safe initial setup instructions.
+- Instructions for creating the first administrator securely.
+- Instructions for running tests.
+- A production deployment checklist.
+
+Do not include real secrets in the README.
+
+---
+
+## 18. Testing Requirements
+
+Write tests for critical functionality.
+
+### Authentication tests
+
+- Successful registration.
+- Invalid registration.
+- Login failure.
+- Session restoration.
+- Logout.
+- Password recovery flow.
+
+### Search tests
+
+- Location search.
+- Budget filtering.
+- Room-sharing filtering.
+- Category filtering.
+- Combined filters.
+- Empty results.
+- Pagination.
+- Sorting.
+
+### Favorites tests
+
+- Add favorite.
+- Remove favorite.
+- Duplicate favorite prevention.
+- Persistence after refresh.
+- Access restrictions between users.
+
+### Enquiry tests
+
+- Submit valid enquiry.
+- Reject invalid enquiry.
+- Owner can view their own listing's enquiries.
+- Owner cannot view another owner's enquiries.
+- Student can view their own enquiries.
+- Invalid state transitions are rejected.
+
+### Owner tests
+
+- Create listing.
+- Save draft.
+- Upload and remove images.
+- Update room inventory.
+- Submit listing for review.
+- Prevent unauthorized editing.
+- Verify unpublished listings are not public.
+
+### Security tests
+
+- Anonymous user cannot modify protected records.
+- Student cannot access admin routes or data.
+- Owner cannot approve their own verification.
+- User cannot promote their role.
+- RLS prevents cross-user access.
+- Privileged credentials are absent from frontend bundles.
+
+Use automated tests where practical and provide clear manual test instructions for flows that depend on real email delivery or external integrations.
+
+---
+
+## 19. Implementation Phases
+
+Build the application in this order. Each phase must leave the repository in a working state.
+
+### Phase 1 — Inspect and preserve the current frontend
+
+- Inspect the existing project files and the supplied Habitux HTML.
+- Identify existing components, dependencies, styles, assets, and event handlers.
+- Preserve the existing visiting page layout.
+- Convert the landing page into maintainable React components.
+- Make all sections responsive.
+- Remove broken links and duplicate handlers.
+- Keep the visual design consistent.
+
+Deliverable: working frontend with the original visiting page design retained.
+
+### Phase 2 — Supabase foundation
+
+- Configure the Supabase client.
+- Create database migrations.
+- Create tables, indexes, constraints, and RLS policies.
+- Configure Storage buckets and upload policies.
+- Implement authentication and profile creation.
+- Verify database connectivity.
+
+Deliverable: working Supabase setup with documented environment variables and database policies.
+
+### Phase 3 — Real listings and search
+
+- Implement property retrieval.
+- Build search and filters.
+- Implement search results and hostel details.
+- Add image galleries.
+- Implement comparison functionality.
+- Remove hardcoded listing records and false metrics.
+
+Deliverable: public pages backed by actual database queries.
+
+### Phase 4 — Student functionality
+
+- Implement favorites.
+- Implement enquiry creation and history.
+- Implement profile management.
+- Implement notifications.
+- Implement reviews and reporting.
+
+Deliverable: working student account and dashboard.
+
+### Phase 5 — Owner functionality
+
+- Implement owner onboarding.
+- Build listing creation and editing.
+- Implement photo uploads.
+- Implement room inventory management.
+- Implement enquiry responses.
+- Implement owner dashboard.
+
+Deliverable: working owner management flow with access controls.
+
+### Phase 6 — Admin and verification
+
+- Implement the protected admin dashboard.
+- Implement review queues and verification workflow.
+- Implement moderation.
+- Add audit records.
+- Verify that owners cannot self-approve.
+
+Deliverable: protected administrative workflow.
+
+### Phase 7 — Final QA and deployment
+
+- Run tests.
+- Resolve TypeScript and build errors.
+- Check browser console and network errors.
+- Test all role-based flows.
+- Verify RLS behavior.
+- Test responsive layouts.
+- Prepare deployment instructions.
+
+Deliverable: tested, deployable application with a list of any remaining external configuration requirements.
+
+---
+
+## 20. Completion Criteria
+
+Do not declare the project complete just because the page looks correct.
+
+The project is complete only when:
+
+1. The original visiting page design is preserved.
+2. Navigation links and calls to action work.
+3. Supabase Auth is connected and tested.
+4. Database migrations can be applied.
+5. RLS policies are enabled and tested.
+6. Search returns actual database results.
+7. Filters change the actual result set.
+8. Property detail pages load the selected property.
+9. Favorites persist across refreshes.
+10. Enquiries persist and are visible to the correct student and owner.
+11. Owners can create and manage their own listings.
+12. Property images can be uploaded securely.
+13. Listing publication and verification are separate, enforced states.
+14. Reviews and ratings are database-backed.
+15. Admin actions are protected and auditable.
+16. Loading, error, and empty states are handled.
+17. The frontend builds successfully.
+18. Required environment variables and deployment steps are documented.
+19. No secrets are exposed in browser code.
+20. No simulated success messages or unsupported real-world claims remain.
+
+---
+
+## 21. Final Instructions to the Coding Agent
+
+Start by inspecting the existing repository. Do not delete or replace working code before understanding it.
+
+Preserve the current Habitux design, but replace simulated behavior with real data access and secure backend operations.
+
+Implement the smallest complete vertical slice first: authentication, listing retrieval, search, and hostel details. Test it before proceeding to favorites, enquiries, owner management, reviews, and administration.
+
+After each phase:
+
+- List files created or changed.
+- Explain the implemented functionality.
+- Identify required environment variables.
+- Report which tests were run and their actual results.
+- Identify any configuration or integration still outstanding.
+
+Do not claim a test passed if it was not executed. Do not claim an external integration works without valid configuration and an actual successful test.
+
+**Final goal: a fully functional, secure, responsive Habitux hostel discovery platform that retains the supplied visiting page's design and uses a real Supabase backend rather than a frontend-only simulation.**
